@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { PokemonService } from '../services/pokemon.service';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { DisplayPokemon } from '../interfaces/pokemon.interface';
 
 @Component({
   selector: 'app-pokemon-personal',
@@ -29,5 +29,15 @@ import { PokemonService } from '../services/pokemon.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonPersonalComponent {
-  personalData = inject(PokemonService).personalData;
+  pokemon = input.required<DisplayPokemon>();
+  
+  personalData = computed(() => {
+    const { id, name, height, weight } = this.pokemon();
+    return [
+      { text: 'Id: ', value: id },
+      { text: 'Name: ', value: name },
+      { text: 'Height: ', value: height },
+      { text: 'Weight: ', value: weight },
+    ];
+  });
 }

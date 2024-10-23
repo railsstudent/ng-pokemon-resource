@@ -1,17 +1,13 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { DisplayPokemon } from '../interfaces/pokemon.interface';
 import { PokemonAbilitiesComponent } from '../pokemon-abilities/pokemon-abilities.component';
 import { PokemonStatsComponent } from '../pokemon-stats/pokemon-stats.component';
-import { PokemonService } from '../services/pokemon.service';
 
 @Component({
   selector: 'app-pokemon-tab',
   standalone: true,
-  imports: [
-    PokemonAbilitiesComponent,
-    PokemonStatsComponent,
-    NgComponentOutlet
-],
+  imports: [NgComponentOutlet],
   template: `
     <div style="padding: 0.5rem;">
       <div>
@@ -50,6 +46,11 @@ import { PokemonService } from '../services/pokemon.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonTabComponent {
+  PokemonAbilitiesComponent = PokemonAbilitiesComponent;
+  PokemonStatsComponent = PokemonStatsComponent;
+
+  pokemon = input.required<DisplayPokemon>();
+  
   componentMap: Record<string, any> = {
     'statistics': [PokemonStatsComponent],
     'abilities': [PokemonAbilitiesComponent],
@@ -57,7 +58,6 @@ export class PokemonTabComponent {
   }
 
   dynamicComponents = this.componentMap['all'];
-  pokemon = inject(PokemonService).pokemon;
 
   selectComponents(type: string) {
     const components = this.componentMap[type];

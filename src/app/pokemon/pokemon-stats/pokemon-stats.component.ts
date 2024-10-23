@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, Input } from '@angular/core';
 import { DisplayPokemon } from '../interfaces/pokemon.interface';
 
 @Component({
@@ -9,7 +9,7 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
   template: `
     <div style="padding: 0.5rem;">
       <p>Stats</p>
-      @for (stat of pokemon.stats; track stat.name) {
+      @for (stat of pokemon().stats; track stat.name) {
         <div class="stats-container">
           <label>
             <span style="font-weight: bold; color: #aaa">Name: </span>
@@ -42,6 +42,5 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonStatsComponent {
-  @Input({ required: true })
-  pokemon!: DisplayPokemon;
+  pokemon = input.required<DisplayPokemon>();
 }
