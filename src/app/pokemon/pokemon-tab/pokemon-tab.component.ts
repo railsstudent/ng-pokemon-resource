@@ -51,7 +51,7 @@ export class PokemonTabComponent {
 
   pokemon = input.required<DisplayPokemon>();
   
-  componentMap: Record<string, any> = {
+  componentMap: Record<string, (typeof PokemonStatsComponent | typeof PokemonAbilitiesComponent)[]> = {
     'statistics': [PokemonStatsComponent],
     'abilities': [PokemonAbilitiesComponent],
     'all': [PokemonStatsComponent, PokemonAbilitiesComponent],
