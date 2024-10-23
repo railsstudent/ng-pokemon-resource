@@ -5,20 +5,15 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
 @Component({
   selector: 'app-pokemon-personal',
   standalone: true,
-  imports: [NgTemplateOutlet],
   template:`
     <div class="pokemon-container" style="padding: 0.5rem;">
-      <ng-container *ngTemplateOutlet="details; context: { $implicit: personalData() }"></ng-container>
-    </div>
-    <ng-template #details let-personalData>
-      @for (data of personalData; track data.text) {
+      @for (data of personalData(); track data.text) {
         <label>
           <span style="font-weight: bold; color: #aaa">{{ data.text }}</span>
           <span>{{ data.value }}</span>
         </label>
       }
-    </ng-template>
-    `,
+    </div>`,
   styles: [`
     .pokemon-container {
       display: flex;

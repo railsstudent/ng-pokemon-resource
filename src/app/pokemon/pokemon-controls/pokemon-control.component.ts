@@ -1,7 +1,7 @@
 
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
 import { searchInput } from './custom-operators/search-input.operator';
 
@@ -14,8 +14,7 @@ import { searchInput } from './custom-operators/search-input.operator';
       @for (delta of [-2, -1, 1, 2]; track delta) {
         <button class="btn" (click)="updatePokemonId(delta)">{{delta < 0 ? delta : '+' + delta }}</button>
       }
-      <input type="number" [ngModel]="searchIdSub.getValue()" (ngModelChange)="searchIdSub.next($event)"
-        name="searchId" id="searchId" />
+      <input type="number" [(ngModel)]="search" name="searchId" id="searchId" />
     </div>
     `,
   styles: [`
@@ -37,7 +36,6 @@ export class PokemonControlsComponent {
   readonly max = 100;
 
   pokemonService = inject(PokemonService);
-  searchIdSub = new BehaviorSubject(1);
   search = signal(1);
 
   updatePokemonId(delta: number) {
@@ -45,7 +43,7 @@ export class PokemonControlsComponent {
   }
 
   constructor() {
-    this.searchIdSub
+    toObservable(this.search)
       .pipe(searchInput(this.min, this.max))
       .subscribe((value) => this.pokemonService.updatePokemonId(value));
   }
