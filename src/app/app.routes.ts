@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: 'rx-resource',
-        loadComponent: () => import('./pokemon/pokemon/pokemon.component')
+        loadComponent: () => import('./pokemon/pokemon/rx-pokemon.component')
     },
     {
         path: 'resource',
