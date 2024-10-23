@@ -43,7 +43,7 @@ const initialValue: DisplayPokemon = {
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PokemonComponent {
+export default class PokemonComponent {
   pokemonService = inject(PokemonService);
   pokemon = toSignal(this.pokemonService.pokemon$, { initialValue });
 }
