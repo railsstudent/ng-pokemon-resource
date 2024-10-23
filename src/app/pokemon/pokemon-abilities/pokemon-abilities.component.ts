@@ -9,7 +9,7 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
   template: `
     <div style="padding: 0.5rem;">
       <p>Abilities</p>
-      @for (ability of pokemon.abilities; track ability) {
+      @for (ability of pokemon.abilities; track ability.name) {
         <div class="abilities-container">
           <label>
             <span style="font-weight: bold; color: #aaa">Name: </span>

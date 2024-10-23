@@ -9,7 +9,7 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
   template: `
     <div style="padding: 0.5rem;">
       <p>Stats</p>
-      @for (stat of pokemon.stats; track stat) {
+      @for (stat of pokemon.stats; track stat.name) {
         <div class="stats-container">
           <label>
             <span style="font-weight: bold; color: #aaa">Name: </span>

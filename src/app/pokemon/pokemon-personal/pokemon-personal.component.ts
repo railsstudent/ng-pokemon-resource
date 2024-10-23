@@ -11,7 +11,7 @@ import { PokemonService } from '../services/pokemon.service';
       <ng-container *ngTemplateOutlet="details; context: { $implicit: personalData() }"></ng-container>
     </div>
     <ng-template #details let-personalData>
-      @for (data of personalData; track data) {
+      @for (data of personalData; track data.text) {
         <label>
           <span style="font-weight: bold; color: #aaa">{{ data.text }}</span>
           <span>{{ data.value }}</span>
