@@ -13,7 +13,7 @@ import { searchInput } from './custom-operators/search-input.operator';
     <div class="container">
       @for (delta of [-2, -1, 1, 2]; track delta) {
         @let buttonText = delta < 0 ? delta : '+' + delta;
-        <button class="btn" (click)="updatePokemonId(delta)">{{ buttonText }}</button>
+        <button (click)="updatePokemonId(delta)">{{ buttonText }}</button>
       }
       <input type="number" [(ngModel)]="search" name="searchId" id="searchId" />
     </div>
@@ -38,7 +38,7 @@ export class PokemonControlsComponent {
 
   pokemonService = inject(PokemonService);
   search = signal(1);
-
+  
   updatePokemonId(delta: number) {
     this.pokemonService.updatePokemonId({ delta, min: this.min, max: this.max })
   }
