@@ -24,4 +24,5 @@ import { INITIAL_VALUE } from '../constants/pokemon.constant';
 export default class RxPokemonComponent {
   pokemonService = inject(PokemonService);
   pokemon = toSignal(this.pokemonService.pokemon$, { initialValue: INITIAL_VALUE });
+  title = 'Display the first 100 pokemon images (rxResource)';
 }

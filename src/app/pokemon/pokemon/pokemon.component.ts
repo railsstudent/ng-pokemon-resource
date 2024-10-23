@@ -24,4 +24,5 @@ import { PokemonService } from '../services/pokemon.service';
 export default class PokemonComponent {
   pokemonService = inject(PokemonService);
   pokemon = toSignal(this.pokemonService.pokemon$, { initialValue: INITIAL_VALUE });
+  title = 'Display the first 100 pokemon images';
 }
