@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
@@ -38,6 +38,7 @@ export class PokemonControlsComponent {
 
   pokemonService = inject(PokemonService);
   searchIdSub = new BehaviorSubject(1);
+  search = signal(1);
 
   updatePokemonId(delta: number) {
     this.pokemonService.updatePokemonId({ delta, min: this.min, max: this.max })

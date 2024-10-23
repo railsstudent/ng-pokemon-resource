@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, map, switchMap } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map, switchMap } from 'rxjs';
 import { PokemonDelta } from '../interfaces/pokemon-control.interface';
 import { Ability, DisplayPokemon, Pokemon, Statistics } from '../interfaces/pokemon.interface';
 
@@ -34,10 +35,10 @@ const pokemonAdapter = (pokemon: Pokemon): DisplayPokemon => {
   providedIn: 'root'
 })
 export class PokemonService {
-  private readonly pokemonIdSub = new BehaviorSubject(1);
   private readonly httpClient = inject(HttpClient);
 
-  readonly pokemon$ =  this.pokemonIdSub
+  private readonly pokemonId = signal(1);
+  readonly pokemon$ =  toObservable(this.pokemonId)
     .pipe(
       switchMap((id) => this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)),
       map((pokemon) => pokemonAdapter(pokemon))
@@ -45,11 +46,12 @@ export class PokemonService {
 
   updatePokemonId(input: PokemonDelta | number) {
     if (typeof input === 'number') {
-      this.pokemonIdSub.next(input); 
+      this.pokemonId.set(input); 
     } else {
-      const potentialId = this.pokemonIdSub.getValue() + input.delta;
-      const newId = Math.min(input.max, Math.max(input.min, potentialId));
-      this.pokemonIdSub.next(newId); 
+      this.pokemonId.update((prev) => {
+        const potentialId = prev + input.delta;
+        return Math.min(input.max, Math.max(input.min, potentialId));
+      })
     }
   }
 }
