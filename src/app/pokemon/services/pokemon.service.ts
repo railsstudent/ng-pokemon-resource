@@ -1,9 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Subject, map, switchMap } from 'rxjs';
-import { Ability, DisplayPokemon, Pokemon, Statistics } from '../interfaces/pokemon.interface';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { PokemonDelta } from '../interfaces/pokemon-control.interface';
+import { Ability, DisplayPokemon, Pokemon, Statistics } from '../interfaces/pokemon.interface';
 
 const initialValue: DisplayPokemon = {
   id: -1,

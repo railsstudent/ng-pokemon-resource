@@ -24,10 +24,6 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
     </div>
     `,
   styles: [`
-    :host {
-      display: block;
-    }
-
     .abilities-container {
       display: flex;
       flex-wrap: wrap;

@@ -28,10 +28,6 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
     </div>
     `,
   styles: [`
-    :host {
-      display: block;
-    }
-
     .stats-container {
       display: flex;
       flex-wrap: wrap;

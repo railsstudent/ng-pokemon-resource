@@ -11,28 +11,16 @@ import { PokemonService } from '../services/pokemon.service';
   template: `
     <h2>Display the first 100 pokemon images</h2>
     <div>
-      <ng-container>
         <div class="container">
           <img [src]="pokemon().frontShiny" />
           <img [src]="pokemon().backShiny" />
         </div>
         <app-pokemon-personal></app-pokemon-personal>
         <app-pokemon-tab></app-pokemon-tab>
-      </ng-container>
     </div>
     <app-pokemon-controls></app-pokemon-controls>
   `,
   styles: [`
-    :host {
-      display: block;
-      font-size: 1.5rem;
-      padding: 1rem;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
     .container {
       display: flex;
       flex-wrap: wrap;

@@ -19,21 +19,11 @@ import { searchInput } from './custom-operators/search-input.operator';
     </div>
     `,
   styles: [`
-    :host {
-      display: block;
-    }
-
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 1rem;
-    }
-
-    .btn {
-      border-radius: 25%;
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
     }
 
     input[type="number"] {

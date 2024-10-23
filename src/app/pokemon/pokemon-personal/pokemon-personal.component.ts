@@ -20,10 +20,6 @@ import { PokemonService } from '../services/pokemon.service';
     </ng-template>
     `,
   styles: [`
-    :host {
-      display: block;
-    }
-
     .pokemon-container {
       display: flex;
       flex-wrap: wrap;
