@@ -12,7 +12,8 @@ import { searchInput } from './custom-operators/search-input.operator';
   template: `
     <div class="container">
       @for (delta of [-2, -1, 1, 2]; track delta) {
-        <button class="btn" (click)="updatePokemonId(delta)">{{delta < 0 ? delta : '+' + delta }}</button>
+        @let buttonText = delta < 0 ? delta : '+' + delta;
+        <button class="btn" (click)="updatePokemonId(delta)">{{ buttonText }}</button>
       }
       <input type="number" [(ngModel)]="search" name="searchId" id="searchId" />
     </div>
