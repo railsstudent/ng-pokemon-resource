@@ -15,4 +15,4 @@
         <app-pokemon-tab [pokemon]="resource"></app-pokemon-tab>
     }
 </div>
-<app-pokemon-controls [useRxResource]="useRxResource()"></app-pokemon-controls>
+<app-pokemon-controls (newPokemonId)="updatePokemonId($event)"></app-pokemon-controls>

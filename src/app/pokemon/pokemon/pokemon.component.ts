@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PokemonControlsComponent } from '../pokemon-controls/pokemon-control.component';
 import { PokemonPersonalComponent } from '../pokemon-personal/pokemon-personal.component';
 import { PokemonTabComponent } from '../pokemon-tab/pokemon-tab.component';
@@ -20,7 +20,11 @@ import { PokemonService } from '../services/pokemon.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PokemonComponent {
-  useRxResource = input(false);
-  pokemon = inject(PokemonService).pokemonResource;
+  private readonly pokemonService = inject(PokemonService);
+  pokemon = this.pokemonService.pokemonResource;
   title = 'Display the first 100 pokemon images';
+
+  updatePokemonId(pokemonId: number) {
+    this.pokemonService.updatePokemonId(pokemonId);
+  }
 }
