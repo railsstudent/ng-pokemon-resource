@@ -1,9 +1,9 @@
 
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injector, OnInit, output, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, model, output, signal } from '@angular/core';
+import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { searchInput } from './custom-operators/search-input.operator';
-import { tap } from 'rxjs';
+import { POKEMON_MAX, POKEMON_MIN } from '../constants/pokemon.constant';
 
 @Component({
   selector: 'app-pokemon-controls',
@@ -13,7 +13,7 @@ import { tap } from 'rxjs';
     <div class="container">
       @for (delta of [-2, -1, 1, 2]; track delta) {
         @let buttonText = delta < 0 ? delta : '+' + delta;
-        <button (click)="incrementBy.emit(delta)">{{ buttonText }}</button>
+        <button (click)="incrementPokemonId(delta)">{{ buttonText }}</button>
       }
       <input type="number" [(ngModel)]="search" name="searchId" id="searchId" />
     </div>
@@ -32,27 +32,12 @@ import { tap } from 'rxjs';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PokemonControlsComponent implements OnInit {
-  readonly min = 1;
-  readonly max = 100;
+export class PokemonControlsComponent {
+  search = model.required<number>();
+  // incrementBy = output<number>();
+  // newPokemonId = outputFromObservable(toObservable(this.search).pipe(searchInput()));
 
-  search = signal(1);
-  incrementBy = output<number>();
-  newPokemonId = output<number>();
-  
-  destroyRef = inject(DestroyRef);
-  injector = inject(Injector);
-  
-  ngOnInit(): void {
-    // toObservable(this.search, { injector: this.injector })
-    //   .pipe(
-    //     tap((value) => console.log('before', value)),
-    //     searchInput(this.min, this.max, this.destroyRef),
-    //     tap((value) => console.log('after', value)),
-    //   )
-    //   .subscribe((value) => { 
-    //     console.log('ngOnInit', value);
-    //     this.newPokemonId.emit(value);
-    //   });
+  incrementPokemonId(delta: number) {
+    this.search.update((prev) =>  Math.min(POKEMON_MAX, Math.max(POKEMON_MIN, prev + delta)));
   }
 }

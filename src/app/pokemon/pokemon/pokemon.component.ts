@@ -22,9 +22,6 @@ import { PokemonService } from '../services/pokemon.service';
 export default class PokemonComponent {
   private readonly pokemonService = inject(PokemonService);
   pokemon = this.pokemonService.pokemonResource;
+  pokemonId = this.pokemonService.pokemonId;
   title = 'Display the first 100 pokemon images';
-
-  incrementPokemonId(pokemonId: number) {
-    this.pokemonService.incrementPokemonId(pokemonId);
-  }
 }
