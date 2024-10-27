@@ -1,10 +1,18 @@
 <h2>{{ title }}</h2>
 <div>
-    <div class="container">
-        <img [src]="pokemon().frontShiny" />
-        <img [src]="pokemon().backShiny" />
-    </div>
-    <app-pokemon-personal [pokemon]="pokemon()"></app-pokemon-personal>
-    <app-pokemon-tab [pokemon]="pokemon()"></app-pokemon-tab>
+    @let resource = pokemon.value();
+    <p [style.fontSize.rem]="'1.1'">Has Value: {{ pokemon.hasValue() }}</p>
+    <p [style.fontSize.rem]="'1.1'">Status: {{ pokemon.status() }}.  Status Enum: 0 - Idle, 1 - Error, 2 - Loading, 4 is Resolved.</p>
+    <p [style.fontSize.rem]="'1.1'">Is loading: {{ pokemon.isLoading() }}</p>
+    @if (pokemon.isLoading()) {
+        <p>Loading the pokemon....</p>
+    } @else if (pokemon.hasValue() && resource) {
+        <div class="container">
+            <img [src]="resource.frontShiny" />
+            <img [src]="resource.backShiny" />
+        </div>
+        <app-pokemon-personal [pokemon]="resource"></app-pokemon-personal>
+        <app-pokemon-tab [pokemon]="resource"></app-pokemon-tab>
+    }
 </div>
-<app-pokemon-controls></app-pokemon-controls>
+<app-pokemon-controls [useRxResource]="useRxResource()"></app-pokemon-controls>

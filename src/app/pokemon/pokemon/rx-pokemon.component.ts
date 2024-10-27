@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { PokemonControlsComponent } from '../pokemon-controls/pokemon-control.component';
 import { PokemonPersonalComponent } from '../pokemon-personal/pokemon-personal.component';
 import { PokemonTabComponent } from '../pokemon-tab/pokemon-tab.component';
@@ -8,7 +8,7 @@ import { PokemonService } from '../services/pokemon.service';
   selector: 'app-rx-pokemon',
   standalone: true,
   imports: [PokemonControlsComponent, PokemonPersonalComponent, PokemonTabComponent],
-  templateUrl: './pokemon-resource.component.html',
+  templateUrl: './pokemon.component.html',
   styles: [`
     .container {
       display: flex;
@@ -20,6 +20,7 @@ import { PokemonService } from '../services/pokemon.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RxPokemonComponent {
+  useRxResource = input(false);
   pokemon = inject(PokemonService).pokemonRxResource;  
   title = 'Display the first 100 pokemon images (rxResource)';
 }

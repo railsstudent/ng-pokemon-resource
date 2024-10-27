@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
-import { rxResource, toObservable } from '@angular/core/rxjs-interop';
-import { delay, map, switchMap } from 'rxjs';
+import { Injectable, inject, resource, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { catchError, delay, map, of } from 'rxjs';
 import { Ability, Pokemon, Statistics } from '../interfaces/pokemon.interface';
 import { DisplayPokemon } from './../interfaces/pokemon.interface';
 
@@ -38,25 +38,41 @@ export class PokemonService {
   private readonly httpClient = inject(HttpClient);
 
   private readonly pokemonId = signal(1);
-  readonly pokemon$ =  toObservable(this.pokemonId)
-    .pipe(
-      switchMap((id) => this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-      map((pokemon) => pokemonAdapter(pokemon))
-    );
+  private readonly rxPokemonId = signal(1);
 
-  pokemonRxResource = rxResource<DisplayPokemon, number>({
+  readonly pokemonResource = resource<DisplayPokemon, number>({
     request: () => this.pokemonId(),
-    loader: ({ request: id }) => { 
-      console.log('id', id);
-      return this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)
-        .pipe(
-          delay(1000),
-          map((pokemon) => pokemonAdapter(pokemon)),
-        )
+    loader: async ({ request: id, abortSignal }) => { 
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, { signal: abortSignal });
+        const result = await response.json() as Pokemon
+        return pokemonAdapter(result);
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
     }
   });
 
-  updatePokemonId(input: number) {
-    this.pokemonId.set(input); 
+  readonly pokemonRxResource = rxResource<DisplayPokemon | undefined, number>({
+    request: () => this.rxPokemonId(),
+    loader: ({ request: id }) =>  this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .pipe(
+        delay(1000),
+        map((pokemon) => pokemonAdapter(pokemon)),
+        catchError((e) => {
+          console.error(e);
+          return of(undefined);
+        })
+      )
+  });
+
+  updatePokemonId(input: number, useRxResource: boolean) {
+    console.log('useRxResource', useRxResource);
+    if (useRxResource) {
+      this.rxPokemonId.set(input); 
+    } else {
+      this.pokemonId.set(input);
+    }
   }
 }
