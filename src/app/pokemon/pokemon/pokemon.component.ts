@@ -24,7 +24,7 @@ export default class PokemonComponent {
   pokemon = this.pokemonService.pokemonResource;
   title = 'Display the first 100 pokemon images';
 
-  updatePokemonId(pokemonId: number) {
-    this.pokemonService.updatePokemonId(pokemonId);
+  incrementPokemonId(pokemonId: number) {
+    this.pokemonService.incrementPokemonId(pokemonId);
   }
 }

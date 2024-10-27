@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injector, OnIni
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { searchInput } from './custom-operators/search-input.operator';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-controls',
@@ -12,7 +13,7 @@ import { searchInput } from './custom-operators/search-input.operator';
     <div class="container">
       @for (delta of [-2, -1, 1, 2]; track delta) {
         @let buttonText = delta < 0 ? delta : '+' + delta;
-        <button (click)="updatePokemonId(delta)">{{ buttonText }}</button>
+        <button (click)="incrementBy.emit(delta)">{{ buttonText }}</button>
       }
       <input type="number" [(ngModel)]="search" name="searchId" id="searchId" />
     </div>
@@ -36,19 +37,22 @@ export class PokemonControlsComponent implements OnInit {
   readonly max = 100;
 
   search = signal(1);
+  incrementBy = output<number>();
   newPokemonId = output<number>();
   
-  updatePokemonId(delta: number) {
-    this.search.update((prev) => Math.min(this.max, Math.max(this.min, prev + delta)));
-    this.newPokemonId.emit(this.search());
-  }
- 
   destroyRef = inject(DestroyRef);
   injector = inject(Injector);
   
   ngOnInit(): void {
-    toObservable(this.search, { injector: this.injector })
-      .pipe(searchInput(this.min, this.max, this.destroyRef))
-      .subscribe((value) => this.newPokemonId.emit(value));
+    // toObservable(this.search, { injector: this.injector })
+    //   .pipe(
+    //     tap((value) => console.log('before', value)),
+    //     searchInput(this.min, this.max, this.destroyRef),
+    //     tap((value) => console.log('after', value)),
+    //   )
+    //   .subscribe((value) => { 
+    //     console.log('ngOnInit', value);
+    //     this.newPokemonId.emit(value);
+    //   });
   }
 }

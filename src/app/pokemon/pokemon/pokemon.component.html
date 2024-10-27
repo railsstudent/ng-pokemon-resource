@@ -13,6 +13,6 @@
         </div>
         <app-pokemon-personal [pokemon]="resource"></app-pokemon-personal>
         <app-pokemon-tab [pokemon]="resource"></app-pokemon-tab>
+        <app-pokemon-controls (incrementBy)="incrementPokemonId($event)"></app-pokemon-controls>
     }
 </div>
-<app-pokemon-controls (newPokemonId)="updatePokemonId($event)"></app-pokemon-controls>

@@ -24,7 +24,7 @@ export default class RxPokemonComponent {
   pokemon = this.pokemonService.pokemonRxResource;  
   title = 'Display the first 100 pokemon images (rxResource)';
 
-  updatePokemonId(pokemonId: number) {
-    this.pokemonService.updatePokemonId(pokemonId);
+  incrementPokemonId(delta: number) {
+    this.pokemonService.incrementPokemonId(delta);
   }
-}
+} 
