@@ -11,7 +11,6 @@ import { searchInput } from './custom-operators/search-input.operator';
   imports: [FormsModule],
   template: `
     <div class="container">
-      search: {{ search() }}
       @for (delta of [-2, -1, 1, 2]; track delta) {
         @let buttonText = delta < 0 ? delta : '+' + delta;
         <button (click)="updatePokemonId(delta)">{{ buttonText }}</button>

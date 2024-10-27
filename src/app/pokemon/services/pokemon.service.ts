@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { toObservable, rxResource } from '@angular/core/rxjs-interop';
-import { map, switchMap } from 'rxjs';
-import { Ability, DisplayPokemon, Pokemon, Statistics } from '../interfaces/pokemon.interface';
+import { rxResource, toObservable } from '@angular/core/rxjs-interop';
+import { delay, map, switchMap } from 'rxjs';
+import { Ability, Pokemon, Statistics } from '../interfaces/pokemon.interface';
+import { DisplayPokemon } from './../interfaces/pokemon.interface';
 
 const pokemonAdapter = (pokemon: Pokemon): DisplayPokemon => {
   const { id, name, height, weight, sprites, abilities: a, stats: statistics } = pokemon;
@@ -43,9 +44,16 @@ export class PokemonService {
       map((pokemon) => pokemonAdapter(pokemon))
     );
 
-  pokemonRxResource = rxResource({
+  pokemonRxResource = rxResource<DisplayPokemon, number>({
     request: () => this.pokemonId(),
-    loader: (id) => this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    loader: ({ request: id }) => { 
+      console.log('id', id);
+      return this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        .pipe(
+          delay(1000),
+          map((pokemon) => pokemonAdapter(pokemon)),
+        )
+    }
   });
 
   updatePokemonId(input: number) {
