@@ -1,0 +1,10 @@
+<h2>{{ title }}</h2>
+<div>
+    <div class="container">
+        <img [src]="pokemon().frontShiny" />
+        <img [src]="pokemon().backShiny" />
+    </div>
+    <app-pokemon-personal [pokemon]="pokemon()"></app-pokemon-personal>
+    <app-pokemon-tab [pokemon]="pokemon()"></app-pokemon-tab>
+</div>
+<app-pokemon-controls></app-pokemon-controls>
