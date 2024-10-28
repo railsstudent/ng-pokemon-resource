@@ -4,6 +4,14 @@ import { DisplayPokemon } from '../interfaces/pokemon.interface';
 import { PokemonAbilitiesComponent } from '../pokemon-abilities/pokemon-abilities.component';
 import { PokemonStatsComponent } from '../pokemon-stats/pokemon-stats.component';
 
+type RenderComponent = {
+  id: number;
+  component: typeof PokemonStatsComponent | typeof PokemonAbilitiesComponent;
+}
+
+const statComponent = { id: 1, component: PokemonStatsComponent };
+const abilityComponent = { id: 2 , component: PokemonAbilitiesComponent }
+
 @Component({
   selector: 'app-pokemon-tab',
   standalone: true,
@@ -25,8 +33,8 @@ import { PokemonStatsComponent } from '../pokemon-stats/pokemon-stats.component'
         </div>
       </div>
     </div>
-    @for (componentType of dynamicComponents; track componentType) {
-      <ng-container *ngComponentOutlet="componentType; inputs: { pokemon: pokemon() }"></ng-container>
+    @for (item of dynamicComponents; track item.id) {
+      <ng-container *ngComponentOutlet="item.component; inputs: { pokemon: pokemon() }"></ng-container>
     }
     `,
   styles: [`
@@ -51,10 +59,10 @@ export class PokemonTabComponent {
 
   pokemon = input.required<DisplayPokemon>();
   
-  componentMap: Record<string, (typeof PokemonStatsComponent | typeof PokemonAbilitiesComponent)[]> = {
-    'statistics': [PokemonStatsComponent],
-    'abilities': [PokemonAbilitiesComponent],
-    'all': [PokemonStatsComponent, PokemonAbilitiesComponent],
+  componentMap: Record<string, RenderComponent[]> = {
+    'statistics': [statComponent],
+    'abilities': [abilityComponent],
+    'all': [statComponent, abilityComponent],
   }
 
   dynamicComponents = this.componentMap['all'];
