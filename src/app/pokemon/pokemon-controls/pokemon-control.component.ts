@@ -1,8 +1,5 @@
-
-import { ChangeDetectionStrategy, Component, model, output, signal } from '@angular/core';
-import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { searchInput } from './custom-operators/search-input.operator';
 import { POKEMON_MAX, POKEMON_MIN } from '../constants/pokemon.constant';
 
 @Component({
@@ -34,8 +31,6 @@ import { POKEMON_MAX, POKEMON_MIN } from '../constants/pokemon.constant';
 })
 export class PokemonControlsComponent {
   search = model.required<number>();
-  // incrementBy = output<number>();
-  // newPokemonId = outputFromObservable(toObservable(this.search).pipe(searchInput()));
 
   incrementPokemonId(delta: number) {
     this.search.update((prev) =>  Math.min(POKEMON_MAX, Math.max(POKEMON_MIN, prev + delta)));

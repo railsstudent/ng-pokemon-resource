@@ -1,13 +1,12 @@
 import { Injectable, resource, signal } from '@angular/core';
-import { Pokemon } from '../interfaces/pokemon.interface';
+import { DisplayPokemon, Pokemon } from '../interfaces/pokemon.interface';
 import { pokemonAdapter } from '../pokemon.adapter';
-import { DisplayPokemon } from './../interfaces/pokemon.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
-  readonly pokemonId = signal(1);
+  private readonly pokemonId = signal(1);
 
   readonly pokemonResource = resource<DisplayPokemon, number>({
     request: () => this.pokemonId(),
@@ -22,4 +21,8 @@ export class PokemonService {
       }
     }
   });
+
+  updatePokemonId(value: number) {
+    this.pokemonId.set(value);
+  }
 }

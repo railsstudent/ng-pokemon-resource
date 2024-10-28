@@ -10,7 +10,7 @@ import { pokemonAdapter } from '../pokemon.adapter';
 })
 export class RxPokemonService {
   private readonly httpClient = inject(HttpClient);
-  readonly pokemonId = signal(1);
+  private readonly pokemonId = signal(1);
 
   readonly pokemonRxResource = rxResource<DisplayPokemon | undefined, number>({
     request: () => this.pokemonId(),
@@ -27,13 +27,7 @@ export class RxPokemonService {
     }
   });
 
-  // updatePokemonId(input: number) {
-  //   console.log('updatePokemonId -> input', input);
-  //   this.pokemonId.set(input); 
-  // }
-
-  // incrementPokemonId(delta: number) {
-  //   this.pokemonId.update((prev) =>  Math.min(POKEMON_MAX, Math.max(POKEMON_MIN, prev + delta)));
-  //   console.log('incrementPokemonId -> rxPokemonId', this.pokemonId());
-  // }
+  updatePokemonId(input: number) {
+    this.pokemonId.set(input); 
+  }
 }
