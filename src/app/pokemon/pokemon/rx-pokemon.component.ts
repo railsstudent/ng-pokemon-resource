@@ -11,14 +11,14 @@ import { RxPokemonService } from '../services/rx-pokemon.service';
   standalone: true,
   imports: [PokemonControlsComponent, PokemonPersonalComponent, PokemonTabComponent],
   templateUrl: './pokemon.component.html',
-  styles: [`
+  styles: `
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 1rem;
     }
-  `],
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RxPokemonComponent {
