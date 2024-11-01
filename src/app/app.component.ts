@@ -1,8 +1,8 @@
 import { Component, VERSION } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './navbar.component';
 import { navLinks } from './app.routes';
+import { NavbarComponent } from './navbar.component';
 
 @Component({
   selector: 'app-root',

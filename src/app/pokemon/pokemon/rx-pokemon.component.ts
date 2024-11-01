@@ -23,7 +23,7 @@ import { RxPokemonService } from '../services/rx-pokemon.service';
 })
 export default class RxPokemonComponent {
   private readonly pokemonService = inject(RxPokemonService);
-  pokemon = this.pokemonService.pokemonRxResource;  
+  pokemon = this.pokemonService.pokemonResource;  
   pokemonId = signal(1)
   title = 'Display the first 100 pokemon images (rxResource)';
 

@@ -12,7 +12,7 @@ export class RxPokemonService {
   private readonly httpClient = inject(HttpClient);
   private readonly pokemonId = signal(1);
 
-  readonly pokemonRxResource = rxResource<DisplayPokemon | undefined, number>({
+  readonly pokemonResource = rxResource<DisplayPokemon | undefined, number>({
     request: () => this.pokemonId(),
     loader: ({ request: id }) =>  { 
       return this.httpClient.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)
